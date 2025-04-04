@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "code": 200,
+  "data": {
+    "user": {
+      "id": 1
+    }
+  },
+  "message": "Data retrieved successfully",
+  "metadata": {
+    "pagination": {
+      "total": 100,
+      "page": 1,
+      "limit": 10
+    },
+    "summary": {
+      "totalUsers": 100,
+      "activeUsers": 80
+    }
+  }
+}
