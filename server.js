@@ -1,18 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const projectRoutes = require('./src/routes/projectRoutes');
-const authRoutes = require('./src/routes/authRoutes'); // Tambahkan ini
 require('dotenv').config();
+const app = require('./app');
+const sequelize = require('./config/database');
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const PORT = process.env.PORT || 3000;
 
-// Tambahkan route autentikasi
-app.use('/api/auth', authRoutes);
-app.use('/api', projectRoutes);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+sequelize.sync({ alter: false }).then(() => {
+    console.log('Connected to MySQL');
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 });

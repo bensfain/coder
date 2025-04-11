@@ -1,13 +1,43 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
-const { port } = require('./config');
+const dotenv = require('dotenv');
+
+// Initialize express app
 const app = express();
-app.use(bodyParser.json()); // Parsing JSON dari body request
-// Menggunakan routing
+
+// Load environment variables
+dotenv.config();
+
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+const memberRoutes = require('./routes/memberRoutes');
+const sampleRoutes = require('./routes/sampleRoutes');
+const logRoutes = require('./routes/logRoutes');
+
+// API Routes
 app.use('/api/auth', authRoutes);
-// Jalankan server
-app.listen(port, () => {
-    console.log(`Server Berjalan pada port ${port}`);
+app.use('/api/projects', projectRoutes);
+app.use('/api/projects', memberRoutes);
+app.use('/api/projects', sampleRoutes);
+app.use('/api/projects', logRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        status: 'error',
+        code: 500,
+        message: 'Terjadi kesalahan server'
+    });
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server berjalan di port ${PORT}`);
 });
